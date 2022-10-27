@@ -1,9 +1,10 @@
 import { CardModule } from 'primeng/card';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeService } from 'src/services/home.service';
-
+import { HttpClientModule } from '@angular/common/http';
+import { TabviewModule } from 'src/app/components/tabview/tabview.module';
 
 
 @NgModule({
@@ -12,10 +13,12 @@ import { HomeService } from 'src/services/home.service';
   ],
   imports: [
     CommonModule,
-    CardModule
+    CardModule,
+    HttpClientModule,
+    TabviewModule
   ],
   providers: [
-    HomeService
+    HomeService,
   ]
 })
 export class HomeModule { }
