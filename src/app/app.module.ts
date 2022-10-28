@@ -1,3 +1,4 @@
+import { appReducer } from './store/app.state';
 import { TabviewModule } from './components/tabview/tabview.module';
 import { HomeModule } from './pages/home/home.module';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ import { HeaderModule } from './components/header/header.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { FooterModule } from './components/footer/footer.module';
 import { TabviewComponent } from './components/tabview/tabview.component';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { TabviewComponent } from './components/tabview/tabview.component';
     HeaderModule,
     FooterModule,
     HomeModule,
+    StoreModule.forRoot({ app: appReducer}),
   ],
   providers: [],
   bootstrap: [AppComponent]

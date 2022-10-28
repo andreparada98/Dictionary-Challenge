@@ -1,6 +1,9 @@
+import { Store } from '@ngrx/store';
+import { IAppState, choosedWord } from './../../store/app.state';
 import { EnglishWords } from './../../../utils/interfaces/englishWords';
 import { HomeService } from 'src/services/home.service';
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-tabview',
@@ -10,22 +13,21 @@ import { Component, OnInit } from '@angular/core';
 export class TabviewComponent implements OnInit {
 
   englishWords: EnglishWords[];
-  choosedWord: string;
   constructor(
-    private homeService: HomeService
+    private homeService: HomeService,
+    private store: Store<{app: IAppState}>
   ) { }
+
 
   ngOnInit() {
   this.homeService.getAllEnglishWords().then(words =>{ 
   this.englishWords = words
-  console.log(this.englishWords)
   })
   }
+  choosedWord$ = this.store.select('app').pipe(map(e => e.atributo))
 
-  searchWord(id:number){
-    return  this.homeService.getOneEnglishWord(id).then(words => {
-      this.choosedWord = words.atributo
-    })
+  choseedWord(choosedWord: any){
+    this.choosedWord$ = choosedWord
   }
 }
 

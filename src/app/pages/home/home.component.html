@@ -1,6 +1,7 @@
 <div class="container">
     <p-card>
-        Content
+        <button pButton (click)="changeWord('Teste')"></button>
+        {{choosedWord$  | async }}
     </p-card>
     <app-tabview></app-tabview>
 </div>

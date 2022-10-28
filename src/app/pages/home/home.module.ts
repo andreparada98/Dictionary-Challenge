@@ -1,3 +1,4 @@
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +16,8 @@ import { TabviewModule } from 'src/app/components/tabview/tabview.module';
     CommonModule,
     CardModule,
     HttpClientModule,
-    TabviewModule
+    TabviewModule,
+    ButtonModule
   ],
   providers: [
     HomeService,
