@@ -10,10 +10,12 @@ import { HeaderModule } from './components/header/header.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { FooterModule } from './components/footer/footer.module';
 import { TabviewComponent } from './components/tabview/tabview.component';
+import { AbstractComponent } from '../utils/shared/abstract.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AbstractComponent
   ],
   imports: [
     BrowserModule,

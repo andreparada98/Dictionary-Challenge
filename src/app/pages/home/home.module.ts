@@ -1,10 +1,12 @@
+import { ButtonModule } from 'primeng/button';
+import { ScrollerModule } from 'primeng/scroller';
 import { CardModule } from 'primeng/card';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeService } from 'src/services/home.service';
 import { HttpClientModule } from '@angular/common/http';
-import { TabviewModule } from 'src/app/components/tabview/tabview.module';
+import { TabViewModule } from 'primeng/tabview';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { TabviewModule } from 'src/app/components/tabview/tabview.module';
     CommonModule,
     CardModule,
     HttpClientModule,
-    TabviewModule
+    TabViewModule,
+    ScrollerModule,
+    ButtonModule
   ],
   providers: [
     HomeService,
