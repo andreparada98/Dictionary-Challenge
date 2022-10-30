@@ -13,9 +13,11 @@ export class HomeComponent implements OnInit {
   choosedWord: any;
   mp3SpeachWord: any;
   history: any;
+  favorite: any;
+  filterWords: any;
 
   constructor(
-    private homeService: HomeService
+    private homeService: HomeService,
   ) { }
 
   ngOnInit() {
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit {
       this.englishWords = words
     })
     this.history = JSON.parse(localStorage.getItem("history"))
+    this.favorite = JSON.parse(localStorage.getItem("favorite"))
   }
 
   searchWord(englishWord: string) {
@@ -43,8 +46,40 @@ export class HomeComponent implements OnInit {
       localStorage.setItem("history", JSON.stringify(history));
     }).then(() => {
       this.history = JSON.parse(localStorage.getItem("history"))
-      console.log(this.history)
     })
   }
+
+  addFavorite(englishWord: string) {
+    console.log(englishWord)
+    if (!localStorage.getItem("favorite")) {
+      localStorage.setItem("favorite", "[]");
+    }
+    const favorite = JSON.parse(localStorage.getItem("favorite"));
+    favorite.push({ ["word"]: englishWord });
+    localStorage.setItem("favorite", JSON.stringify(favorite));
+    this.favorite = JSON.parse(localStorage.getItem("favorite"))
+
+  }
+
+  wordFilter(word: string) {
+    if (word == '' || this.englishWords.length <= 233464) {
+      this.homeService.getAllEnglishWords().then(words => {
+        this.englishWords = words
+      }).then(() => {
+        this.englishWords = this.englishWords.filter(words => {
+          if (words.atributo.match(word)) {
+            return words
+          }
+        })
+      })
+    } else {
+      this.englishWords = this.englishWords.filter(words => {
+        if (words.atributo.match(word)) {
+          return words
+        }
+      })
+    }
+  }
+
 
 }

@@ -7,6 +7,7 @@ import { HomeComponent } from './home.component';
 import { HomeService } from 'src/services/home.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @NgModule({
@@ -19,7 +20,9 @@ import { TabViewModule } from 'primeng/tabview';
     HttpClientModule,
     TabViewModule,
     ScrollerModule,
-    ButtonModule
+    ButtonModule,
+    InputTextModule
+    
   ],
   providers: [
     HomeService,

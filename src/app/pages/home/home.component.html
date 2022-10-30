@@ -1,16 +1,30 @@
 <div class="container">
-    <p-card>
-        {{choosedWord? choosedWord[0].word: 'Escolha uma palavra' }}
-        {{choosedWord? choosedWord[0].phonetic : '' }}
-        {{mp3SpeachWord}}
+    <p-card class="mainCard">
+        <div class="aligninMainCardItems">
+            {{choosedWord? choosedWord[0].word: 'Escolha uma palavra' }}
+            {{choosedWord? choosedWord[0].phonetic : '' }}
+            <button pButton pRipple type="button" icon="pi pi-heart"
+                class="p-button-rounded p-button-help p-button-text" *ngIf="choosedWord"
+                (click)="addFavorite(choosedWord[0].word)"></button>
+        </div>
     </p-card>
 
-    <audio controls *ngIf="mp3SpeachWord">
-        <source src="{{mp3SpeachWord}}" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <p-card *ngIf="choosedWord" class="mainCard" id="meaningCard">
+        <h3>Definição</h3>
+        {{choosedWord[0].meanings[0].definitions[0].definition}}
+    </p-card>
 
-    <div class="card">
+    <div *ngIf="mp3SpeachWord" id="meaningCard" class="aligninMainCardItems">
+        <audio controls>
+            <source src="{{mp3SpeachWord}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div *ngIf="!mp3SpeachWord && choosedWord">
+            Não temos Audio disponível
+        </div>
+    </div>
+
+    <div class="mainCard" id="meaningCard">
         <p-tabView styleClass="tabview-custom">
             <p-tabPanel>
                 <ng-template pTemplate="header">
@@ -47,14 +61,21 @@
                     <i class="pi pi-heart-fill"></i>
                     <span>Favorites</span>
                 </ng-template>
-                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                    deleniti
-                    atque corrupti quos dolores et quas molestias excepturi sint occaecati
-                    cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est
-                    laborum et
-                    dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.
-                    Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.</p>
+                <ng-template pTemplate="content">
+                    <p-scroller [items]="favorite" scrollHeight="200px" [itemSize]="5">
+                        <ng-template pTemplate="item" let-item let-options="options">
+                            <button pButton pRipple type="button" (click)="searchWord(item.word)"
+                                styleClass="p-button-sm p-button-text"
+                                class="p-button-outlined p-button-text">{{item.word}}</button>
+                        </ng-template>
+                    </p-scroller>
+                </ng-template>
             </p-tabPanel>
         </p-tabView>
+
+    </div>
+    <div class="p-inputgroup mainCard" id="meaningCard">
+        <input type="text" pInputText placeholder="Filte uma Palavra" #filterWord>         
+        <p-button label="Pesquisar" (click)="wordFilter(filterWord.value)"></p-button>
     </div>
 </div>
