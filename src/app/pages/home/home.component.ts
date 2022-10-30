@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   history: any;
   favorite: any;
   filterWords: any;
+  ExistsFavoriteWord: boolean = false;
 
   constructor(
     private homeService: HomeService,
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   }
 
   searchWord(englishWord: string) {
+    this.ExistsFavoriteWord = false
     this.mp3SpeachWord = ''
     return this.homeService.getOneEnglishWord(englishWord).then(words => {
       this.choosedWord = words
@@ -46,11 +48,17 @@ export class HomeComponent implements OnInit {
       localStorage.setItem("history", JSON.stringify(history));
     }).then(() => {
       this.history = JSON.parse(localStorage.getItem("history"))
+    }).then(() => {
+      this.favorite.map((favorites) => {
+        if (favorites.word == englishWord) {
+          this.ExistsFavoriteWord = true
+        }
+      })
     })
   }
 
   addFavorite(englishWord: string) {
-    console.log(englishWord)
+    this.ExistsFavoriteWord = true
     if (!localStorage.getItem("favorite")) {
       localStorage.setItem("favorite", "[]");
     }
@@ -58,7 +66,20 @@ export class HomeComponent implements OnInit {
     favorite.push({ ["word"]: englishWord });
     localStorage.setItem("favorite", JSON.stringify(favorite));
     this.favorite = JSON.parse(localStorage.getItem("favorite"))
+  }
 
+  removeFavorite(englishWord: string) {
+    this.ExistsFavoriteWord = false
+    var newFavoriteArray = []
+    const favorite = JSON.parse(localStorage.getItem("favorite"));
+    window.localStorage.removeItem('favorite')
+    favorite.map((favorites) => {
+      if (favorites.word != englishWord) {
+        newFavoriteArray.push({ ["word"]: favorites.word })
+      }
+    })
+    localStorage.setItem("favorite", JSON.stringify(newFavoriteArray));
+    this.favorite = JSON.parse(localStorage.getItem("favorite"))
   }
 
   wordFilter(word: string) {

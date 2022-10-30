@@ -1,11 +1,20 @@
 <div class="container">
     <p-card class="mainCard">
         <div class="aligninMainCardItems">
-            {{choosedWord? choosedWord[0].word: 'Escolha uma palavra' }}
-            {{choosedWord? choosedWord[0].phonetic : '' }}
+            <div class="alignMainCardWords">
+                <div>
+                    {{choosedWord? choosedWord[0].word: 'Escolha uma palavra' }}
+                </div>
+                <div>
+                    {{choosedWord? choosedWord[0].phonetic : '' }}
+                </div>
+            </div>
             <button pButton pRipple type="button" icon="pi pi-heart"
-                class="p-button-rounded p-button-help p-button-text" *ngIf="choosedWord"
+                class="p-button-rounded p-button-help p-button-text" *ngIf="choosedWord && !ExistsFavoriteWord"
                 (click)="addFavorite(choosedWord[0].word)"></button>
+            <button pButton pRipple type="button" icon="pi pi-heart-fill"
+                class="p-button-rounded p-button-help p-button-text" *ngIf="choosedWord && ExistsFavoriteWord"
+                (click)="removeFavorite(choosedWord[0].word)"></button>
         </div>
     </p-card>
 
@@ -75,7 +84,7 @@
 
     </div>
     <div class="p-inputgroup mainCard" id="searchInput">
-        <input type="text" pInputText placeholder="Filte uma Palavra" #filterWord>         
+        <input type="text" pInputText placeholder="Filte uma Palavra" #filterWord>
         <p-button label="Pesquisar" (click)="wordFilter(filterWord.value)"></p-button>
     </div>
 </div>
