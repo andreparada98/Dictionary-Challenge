@@ -10,23 +10,41 @@ import { EnglishWords } from 'src/utils/interfaces/englishWords';
 export class HomeComponent implements OnInit {
 
   englishWords: EnglishWords[];
-  choosedWord: string;
+  choosedWord: any;
+  mp3SpeachWord: any;
+  history: any;
 
   constructor(
     private homeService: HomeService
   ) { }
 
   ngOnInit() {
-    this.homeService.getAllEnglishWords().then(words =>{ 
-    this.englishWords = words
-    console.log(this.englishWords)
+    this.homeService.getAllEnglishWords().then(words => {
+      this.englishWords = words
     })
-    }
+    this.history = JSON.parse(localStorage.getItem("history"))
+  }
 
-    searchWord(id:number){
-      return  this.homeService.getOneEnglishWord(id).then(words => {
-        this.choosedWord = words.atributo
+  searchWord(englishWord: string) {
+    this.mp3SpeachWord = ''
+    return this.homeService.getOneEnglishWord(englishWord).then(words => {
+      this.choosedWord = words
+      words.map((arrayspeachWord) => {
+        arrayspeachWord.phonetics.map((singleSpeachWord) => {
+          if (singleSpeachWord.audio.length > 2)
+            this.mp3SpeachWord = singleSpeachWord.audio
+        })
       })
-    }
+      if (!localStorage.getItem("history")) {
+        localStorage.setItem("history", "[]");
+      }
+      const history = JSON.parse(localStorage.getItem("history"));
+      history.push({ ["word"]: englishWord });
+      localStorage.setItem("history", JSON.stringify(history));
+    }).then(() => {
+      this.history = JSON.parse(localStorage.getItem("history"))
+      console.log(this.history)
+    })
+  }
 
 }

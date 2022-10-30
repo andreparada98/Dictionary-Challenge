@@ -1,7 +1,15 @@
 <div class="container">
     <p-card>
-        {{choosedWord? choosedWord: 'Escolha uma palavra' }}
+        {{choosedWord? choosedWord[0].word: 'Escolha uma palavra' }}
+        {{choosedWord? choosedWord[0].phonetic : '' }}
+        {{mp3SpeachWord}}
     </p-card>
+
+    <audio controls *ngIf="mp3SpeachWord">
+        <source src="{{mp3SpeachWord}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div class="card">
         <p-tabView styleClass="tabview-custom">
             <p-tabPanel>
@@ -12,25 +20,27 @@
                 <div>
                     <p-scroller [items]="englishWords" scrollHeight="200px" [itemSize]="5">
                         <ng-template pTemplate="item" let-item let-options="options">
-                            <button pButton pRipple type="button" (click)="searchWord(item.id)"
+                            <button pButton pRipple type="button" (click)="searchWord(item.atributo)"
                                 styleClass="p-button-sm p-button-text"
                                 class="p-button-outlined p-button-text">{{item.atributo}}</button>
                         </ng-template>
                     </p-scroller>
                 </div>
             </p-tabPanel>
-            <p-tabPanel header="Header II">
+            <p-tabPanel>
                 <ng-template pTemplate="header">
                     <i class="pi pi-history"></i>
                     <span>History</span>
                 </ng-template>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                    totam
-                    rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-                    architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                    aspernatur
-                    aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                    voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.</p>
+                <ng-template pTemplate="content">
+                    <p-scroller [items]="history" scrollHeight="200px" [itemSize]="5">
+                        <ng-template pTemplate="item" let-item let-options="options">
+                            <button pButton pRipple type="button" (click)="searchWord(item.word)"
+                                styleClass="p-button-sm p-button-text"
+                                class="p-button-outlined p-button-text">{{item.word}}</button>
+                        </ng-template>
+                    </p-scroller>
+                </ng-template>
             </p-tabPanel>
             <p-tabPanel header="Header III">
                 <ng-template pTemplate="header">
