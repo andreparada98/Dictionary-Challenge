@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
         this.englishWords = words
       }).then(() => {
         this.englishWords = this.englishWords.filter(words => {
-          if (words.atributo.match(word)) {
+          if (words.atributo.match(word.toLowerCase())) {
             return words
           }
         })
